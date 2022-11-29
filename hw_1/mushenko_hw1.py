@@ -24,7 +24,7 @@
 
 # ## KNN (5 баллов)
 
-# In[537]:
+# In[26]:
 
 
 import numpy as np
@@ -51,7 +51,7 @@ from sklearn.neighbors import NearestNeighbors
 # Разберитесь самостоятельно, какая мера расстояния используется в KNeighborsClassifier дефолтно и реализуйте свой алгоритм именно с этой мерой. 
 # Для подсчета расстояний можно использовать функции [отсюда](https://docs.scipy.org/doc/scipy/reference/spatial.distance.html)
 
-# In[538]:
+# In[27]:
 
 
 class MyKNeighborsClassifier(BaseEstimator):
@@ -97,34 +97,34 @@ class MyKNeighborsClassifier(BaseEstimator):
 # 
 # В библиотеке scikit-learn есть несколько датасетов из коробки. Один из них [Ирисы Фишера](https://ru.wikipedia.org/wiki/%D0%98%D1%80%D0%B8%D1%81%D1%8B_%D0%A4%D0%B8%D1%88%D0%B5%D1%80%D0%B0)
 
-# In[539]:
+# In[28]:
 
 
 from sklearn.datasets import load_iris
 iris = datasets.load_iris()
 
 
-# In[540]:
+# In[29]:
 
 
 X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.1, stratify=iris.target)
 
 
-# In[541]:
+# In[30]:
 
 
 clf = KNeighborsClassifier(n_neighbors=2, algorithm='brute')
 my_clf = MyKNeighborsClassifier(n_neighbors=2, algorithm='brute')
 
 
-# In[542]:
+# In[31]:
 
 
 clf.fit(X_train, y_train)
 my_clf.fit(X_train, y_train)
 
 
-# In[549]:
+# In[32]:
 
 
 with warnings.catch_warnings():
@@ -135,7 +135,7 @@ with warnings.catch_warnings():
 assert abs( accuracy_score(y_test, my_clf_pred) -  accuracy_score(y_test, sklearn_pred ) )<0.005, "Score must be simillar"
 
 
-# In[550]:
+# In[33]:
 
 
 abs( accuracy_score(y_test, my_clf_pred) -  accuracy_score(y_test, sklearn_pred ) )
@@ -146,19 +146,19 @@ abs( accuracy_score(y_test, my_clf_pred) -  accuracy_score(y_test, sklearn_pred 
 # Давайте попробуем добиться скорости работы на fit, predict сравнимой со sklearn для iris. Допускается замедление не более чем в 2 раза. 
 # Для этого используем numpy. 
 
-# In[555]:
+# In[34]:
 
 
 get_ipython().run_line_magic('time', 'clf.fit(X_train, y_train)')
 
 
-# In[556]:
+# In[35]:
 
 
 get_ipython().run_line_magic('time', 'my_clf.fit(X_train, y_train)')
 
 
-# In[558]:
+# In[43]:
 
 
 with warnings.catch_warnings():  
@@ -172,32 +172,32 @@ with warnings.catch_warnings():
 # Добавьте algorithm='kd_tree' в реализацию KNN (использовать KDTree из sklearn.neighbors). Необходимо добиться скорости работы на fit,  predict сравнимой со sklearn для iris. Допускается замедление не более чем в 2 раза. 
 # Для этого используем numpy. Точность не должна уступать значению KNN из sklearn. 
 
-# In[559]:
+# In[44]:
 
 
 clf = KNeighborsClassifier(n_neighbors=2, algorithm='kd_tree')
 my_clf = MyKNeighborsClassifier(n_neighbors=2, algorithm='kd_tree')
 
 
-# In[560]:
+# In[45]:
 
 
 X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.1, stratify=iris.target)
 
 
-# In[561]:
+# In[46]:
 
 
 get_ipython().run_line_magic('time', 'clf.fit(X_train, y_train)')
 
 
-# In[562]:
+# In[47]:
 
 
 get_ipython().run_line_magic('time', 'my_clf.fit(X_train, y_train)')
 
 
-# In[563]:
+# In[48]:
 
 
 with warnings.catch_warnings():
@@ -207,7 +207,7 @@ with warnings.catch_warnings():
     get_ipython().run_line_magic('timeit', 'my_clf.predict(X_test)')
 
 
-# In[564]:
+# In[49]:
 
 
 #with warnings.catch_warnings():
@@ -215,7 +215,7 @@ with warnings.catch_warnings():
     
 
 
-# In[565]:
+# In[50]:
 
 
 with warnings.catch_warnings():
@@ -229,20 +229,20 @@ assert abs( accuracy_score(y_test, my_clf_pred) -  accuracy_score(y_test, sklear
 # 
 # Рассмотрим новый датасет 20 newsgroups
 
-# In[566]:
+# In[51]:
 
 
 newsgroups = fetch_20newsgroups(subset='train',remove=['headers','footers', 'quotes'])
 
 
-# In[567]:
+# In[52]:
 
 
 data = newsgroups['data']
 target = newsgroups['target']
 
 
-# In[568]:
+# In[53]:
 
 
 #print(data[:1])
@@ -251,7 +251,7 @@ target = newsgroups['target']
 
 # Преобразуйте текстовые данные из data с помощью [CountVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html). Словарь можно ограничить по частотности.
 
-# In[569]:
+# In[54]:
 
 
 # Ограничиваем размер словаря
@@ -265,7 +265,7 @@ vector = vectorize.transform(data)
 
 # Реализуйте разбиение выборки для кросс-валидации на 3 фолдах. Разрешено использовать sklearn.cross_validation
 
-# In[570]:
+# In[55]:
 
 
 # Инициализация KFold с 3мя фолдами
@@ -280,10 +280,10 @@ for train_index, test_index in kf.split(data):
 # Напишите метод, позволяющий найти оптимальное количество ближайших соседей(дающее максимальную точность в среднем на валидации на 3 фолдах).
 # Постройте график зависимости средней точности от количества соседей. Можно рассмотреть число соседей от 1 до 10.
 
-# In[571]:
+# In[56]:
 
 
-def bestKNN(k_range, vector, target, folds, metrica='minkowski'):
+def bestKNN(k_range, vector, target, folds, metrica):
     k_scores = []
     for k in k_range:
         knn = KNeighborsClassifier(n_neighbors=k,metric=metrica)
@@ -300,37 +300,37 @@ def showScores(title,k_range,k_scores):
     plt.xlabel('Value of K for KNN')
     plt.ylabel('Cross-Validated Accuracy')
     plt.show()
-    index_min = k_range[min(range(len(k_scores)), key=k_scores.__getitem__)] 
-    print("Best accuracy %.4f with %d neighbours." % (min(k_scores),index_min))
+    index_max = k_range[max(range(len(k_scores)), key=k_scores.__getitem__)] 
+    print("Best accuracy %.4f with %d neighbours." % (max(k_scores),index_max))
 
 
-# In[572]:
+# In[57]:
 
 
 k_range = range(1,11)
-k_scores = bestKNN(k_range, vector, target, 3)
-showScores('Euclidian metric for CountVectorizer', k_range, k_scores)
+k_scores = bestKNN(k_range, vector, target, 3, 'euclidean')
+showScores('Euclidean metric for CountVectorizer', k_range, k_scores)
 
 
-# In[573]:
+# In[58]:
 
 
 k_scores = bestKNN(k_range, vector, target, 3, 'cosine')
 showScores('Cosine metric for CountVectorizer', k_range, k_scores)
 
 
-# In[574]:
+# In[59]:
 
 
 tfidf = TfidfVectorizer()
 X = tfidf.fit_transform(newsgroups.data)
 y = newsgroups.target
 
-k_scores = bestKNN(k_range, X, y, 3)
-showScores('Euclidian metric for TfidfVectorizer', k_range, k_scores)
+k_scores = bestKNN(k_range, X, y, 3, 'euclidean')
+showScores('Euclidean metric for TfidfVectorizer', k_range, k_scores)
 
 
-# In[575]:
+# In[60]:
 
 
 k_scores = bestKNN(k_range, X, y, 3, 'cosine')
@@ -346,7 +346,7 @@ showScores('Cosine metric for TfidfVectorizer', k_range, k_scores)
 
 # Загрузим  теперь test  часть нашей выборки и преобразуем её аналогично с train частью. Не забудьте, что наборы слов в train и test части могут отличаться.
 
-# In[576]:
+# In[61]:
 
 
 newsgroups = fetch_20newsgroups(subset='test',remove=['headers','footers', 'quotes'])
@@ -354,28 +354,28 @@ newsgroups = fetch_20newsgroups(subset='test',remove=['headers','footers', 'quot
 
 # Оценим точность вашей лучшей модели на test части датасета. Отличается ли оно от кросс-валидации? Попробуйте сделать выводы, почему отличается качество.
 
-# In[577]:
+# In[62]:
 
 
 tfidf = TfidfVectorizer()
 X = tfidf.fit_transform(newsgroups.data)
 y = newsgroups.target
 
-k_scores = bestKNN(k_range, X, y, 3)
-showScores('Euclidian metric for TfidfVectorizer', k_range, k_scores)
+k_scores = bestKNN(k_range, X, y, 3, 'cosine')
+showScores('Cosine metric for TfidfVectorizer', k_range, k_scores)
 
 
-# In[578]:
+# In[63]:
 
 
-# Самая высокая точность на этом наборе данных получилась с TfidfVectorizer() на евклидовой метрике
+# Самая высокая точность на этом наборе данных получилась с TfidfVectorizer() на косинустой метрике
 # Cамая низкая - на том же TfidfVectorizer() на косинусной метрике (с косинусной метрикой лучше себя показал CountVectrorizer())
 # Точность практически не отличается, вероятно, из-за размера данных и самого наполнения
 
 
 # # Линейные модели (5 баллов)
 
-# In[590]:
+# In[64]:
 
 
 import pandas as pd
@@ -482,7 +482,7 @@ plt.rcParams['figure.figsize'] = (12,5)
 # 
 # Если Вам понравилась идея с генераторами, то Вы можете реализовать свой, используя прототип batch_generator. В нем Вам нужно выдавать батчи признаков и ответов для каждой новой итерации спуска. Если не понравилась идея, то можете реализовывать SGD или mini-batch GD без генераторов.
 
-# In[591]:
+# In[65]:
 
 
 def batch_generator(X, y, shuffle=True, batch_size=1):
@@ -505,14 +505,14 @@ def batch_generator(X, y, shuffle=True, batch_size=1):
         yield (X_batch, y_batch)
 
 
-# In[592]:
+# In[66]:
 
 
 # Теперь можно сделать генератор по данным ()
 #  my_batch_generator = batch_generator(X, y, shuffle=True, batch_size=1):
 
 
-# In[593]:
+# In[67]:
 
 
 #%%pycodestyle
@@ -649,7 +649,7 @@ class MySGDClassifier(BaseEstimator, ClassifierMixin):
 # 
 # Выведите полученные веса и нарисуйте разделяющую границу между классами (используйте только первых два веса для первых двух признаков X[:,0], X[:,1] для отображения в 2d пространство ).  
 
-# In[594]:
+# In[68]:
 
 
 def plot_decision_boundary(clf, type_reg):
@@ -658,7 +658,7 @@ def plot_decision_boundary(clf, type_reg):
     
 
 
-# In[595]:
+# In[69]:
 
 
 import matplotlib.pyplot as plt
@@ -689,7 +689,7 @@ plt.scatter(X[:,0], X[:,1], c=y)
 # Далее будем анализировать Ваш алгоритм. 
 # Для этих заданий используйте датасет ниже.
 
-# In[596]:
+# In[70]:
 
 
 from sklearn.datasets import make_classification
@@ -704,7 +704,7 @@ X, y = make_classification(n_samples=100000, n_features=10,
 # 
 # $N$ можно брать 10, 50, 100 и т.д. 
 
-# In[597]:
+# In[71]:
 
 
 plt.figure(figsize=(14, 6))
@@ -737,7 +737,7 @@ plt.show()
 # 
 # Изобразите график среднего значения весов для обеих регрессий в зависимости от коеф. регуляризации С из `np.logspace(3, -3, 10)` 
 
-# In[598]:
+# In[72]:
 
 
 plt.figure(figsize=(14, 5))
@@ -769,8 +769,14 @@ plt.show()
 
 # Довольны ли Вы, насколько сильно уменьшились Ваши веса? 
 
-# In[599]:
+# In[73]:
 
 
 #Да
+
+
+# In[ ]:
+
+
+
 
