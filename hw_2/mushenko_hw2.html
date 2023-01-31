@@ -14633,7 +14633,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="c1">#import scipy.stats</span>
 
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_wine</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
@@ -14713,7 +14712,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     
     <span class="k">def</span> <span class="nf">__calc_Q</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="n">y_l</span><span class="p">,</span> <span class="n">y_r</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-        <span class="c1">#Q = self.__y_criterion - (self.calc_criterion(y_l)*y_l.shape[0] + self.calc_criterion(y_r)*y_r.shape[0])/y.shape[0]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y_criterion</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc_criterion</span><span class="p">(</span><span class="n">y_l</span><span class="p">)</span><span class="o">*</span><span class="n">y_l</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_criterion</span><span class="p">(</span><span class="n">y_r</span><span class="p">)</span><span class="o">*</span><span class="n">y_r</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#Q</span>
   
     <span class="k">def</span> <span class="nf">__find_threshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -14722,8 +14720,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <span class="sd">        Здесь используемые разные impurity в зависимости от self.criterion</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">opt_feature</span><span class="p">,</span> <span class="n">opt_split</span><span class="p">,</span> <span class="n">max_Q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y_criterion</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__calc_Q</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_criterion</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="c1">#sum_y = np.sum(y)</span>
-        <span class="c1">#sum_square_y = np.sum(np.square(y))</span>
         <span class="k">for</span> <span class="n">feature_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">feature_idx</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">feature_idx</span><span class="p">])</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># Проверяем на уникальность</span>
@@ -14807,11 +14803,6 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Возвращает важность признаков</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1">#importances = np.zeros(len(self.feature_importances_))</span>
-        <span class="c1">#print(self.feature_importances_.items())</span>
-        <span class="c1">#importances = [ i in self.feature_importances(,:)]</span>
-        <span class="c1">#for k, i in self.feature_importances_.items():</span>
-        <span class="c1">#    importances[k] = i</span>
         <span class="n">importances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_importances_</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
         <span class="k">return</span> <span class="n">importances</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">importances</span><span class="p">)</span>
 </pre></div>
@@ -14897,22 +14888,6 @@ my_clf:  0.9444444444444444
 
 </div>
 
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
 </div>
 
 </div>
@@ -17632,23 +17607,7 @@ class="
 </div>
 </div>
 </div>
-</div>Это д/з вызвало у меня гораздо большие сложности, чем первое и я до конца не уверен в правильности написания алгоритма.<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
+</div>Это д/з вызвало у меня гораздо большие сложности, чем первое и я до конца не уверен в правильности написания алгоритма.
 </body>
 
 

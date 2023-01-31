@@ -24,7 +24,6 @@
 
 import numpy as np
 import pandas as pd
-#import scipy.stats
 
 from sklearn.datasets import load_wine
 from sklearn.metrics import accuracy_score
@@ -93,7 +92,6 @@ class MyDecisionTreeClassifier:
     
     def __calc_Q(self, y, i):
         y_l, y_r = y[0:i], y[i:y.shape[0]]
-        #Q = self.__y_criterion - (self.calc_criterion(y_l)*y_l.shape[0] + self.calc_criterion(y_r)*y_r.shape[0])/y.shape[0]
         return self.__y_criterion-(self.calc_criterion(y_l)*y_l.shape[0] + self.calc_criterion(y_r)*y_r.shape[0])/y.shape[0] #Q
   
     def __find_threshold(self, x, y):
@@ -102,8 +100,6 @@ class MyDecisionTreeClassifier:
         Здесь используемые разные impurity в зависимости от self.criterion
         """
         opt_feature, opt_split, max_Q, self.__y_criterion = 0, x[0, 0], self.__calc_Q(y, 0), self.calc_criterion(y)
-        #sum_y = np.sum(y)
-        #sum_square_y = np.sum(np.square(y))
         for feature_idx in range(x.shape[1]):
             order = np.argsort(x[:, feature_idx])
             if np.unique(x[:, feature_idx]).size == 1: # Проверяем на уникальность
@@ -187,11 +183,6 @@ class MyDecisionTreeClassifier:
         """
         Возвращает важность признаков
         """
-        #importances = np.zeros(len(self.feature_importances_))
-        #print(self.feature_importances_.items())
-        #importances = [ i in self.feature_importances(,:)]
-        #for k, i in self.feature_importances_.items():
-        #    importances[k] = i
         importances = np.array([x[1] for x in self.feature_importances_.items()])
         return importances/np.sum(importances)
 
@@ -218,12 +209,6 @@ print("clf: ",accuracy_score(y_pred=clf.predict(X_test), y_true=y_test))
 
 my_clf.fit(X_train, y_train)
 print("my_clf: ",accuracy_score(y_pred=my_clf.predict(X_test), y_true=y_test))
-
-
-# In[ ]:
-
-
-
 
 
 # Совет: Проверьте, что ваша реализация корректно работает с признаками в которых встречаются повторы. 
@@ -685,8 +670,3 @@ print("10 main features:", [(i,imps[i]) for i in np.argsort(imps)[::-1][0:10]])
 # 
 # 
 Это д/з вызвало у меня гораздо большие сложности, чем первое и я до конца не уверен в правильности написания алгоритма.
-# In[ ]:
-
-
-
-
